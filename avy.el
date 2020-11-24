@@ -214,7 +214,10 @@ pressed during the dispatch, ACTION is set to replace the default
   :type 'boolean)
 
 (defcustom avy-all-windows t
-  "Determine the list of windows to consider in search of candidates."
+  "Determine the list of windows to consider in search of candidates:
+'all-frames - all windows in all visible frames
+t           - selected frame (default)
+nil         - selected window."
   :type
   '(choice
     (const :tag "All Frames" all-frames)
@@ -1739,23 +1742,27 @@ When BOTTOM-UP is non-nil, display avy candidates from top to bottom"
 
 ;;;###autoload
 (defun avy-goto-line (&optional arg)
-  "Jump to a line start in current buffer.
+  "Jump to the start of a line within the current buffer or visible within a window.
+The scope of selectable lines is determined by `avy-all-windows' and
+overridden by ARG.
 
-When ARG is 1, jump to lines currently visible, with the option
+When ARG is 0, select from all windows across all visible frames.
+
+When ARG is 1, jump to any line visible within the selected frame, with the option
 to cancel to `goto-line' by entering a number.
 
-When ARG is 4, negate the window scope determined by
-`avy-all-windows'.
+When ARG is 4, negate the window scope determined by `avy-all-windows'.
 
 Otherwise, forward to `goto-line' with ARG."
   (interactive "p")
   (setq arg (or arg 1))
-  (if (not (memq arg '(1 4)))
+  (if (not (memq arg '(0 1 4)))
       (progn
         (goto-char (point-min))
         (forward-line (1- arg)))
     (avy-with avy-goto-line
       (let* ((avy-handler-old avy-handler-function)
+             (avy-all-windows (if (eq arg 0) 'all-frames avy-all-windows))
              (avy-handler-function
               (lambda (char)
                 (if (or (< char ?0)
