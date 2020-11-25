@@ -26,22 +26,22 @@
 ;;; Commentary:
 ;;
 ;; With Avy, you can move point to any position in Emacs – even in a
-;; different window – using very few keystrokes. For this, you look at
+;; different window – using very few keystrokes.  For this, you look at
 ;; the position where you want point to be, invoke Avy, and then enter
 ;; the sequence of characters displayed at that position.
 ;;
 ;; If the position you want to jump to can be determined after only
 ;; issuing a single keystroke, point is moved to the desired position
-;; immediately after that keystroke. In case this isn't possible, the
+;; immediately after that keystroke.  In case this isn't possible, the
 ;; sequence of keystrokes you need to enter is comprised of more than
-;; one character. Avy uses a decision tree where each candidate position
+;; one character.  Avy uses a decision tree where each candidate position
 ;; is a leaf and each edge is described by a character which is distinct
-;; per level of the tree. By entering those characters, you navigate the
+;; per level of the tree.  By entering those characters, you navigate the
 ;; tree, quickly arriving at the desired candidate position, such that
 ;; Avy can move point to it.
 ;;
 ;; Note that this only makes sense for positions you are able to see
-;; when invoking Avy. These kinds of positions are supported:
+;; when invoking Avy.  These kinds of positions are supported:
 ;;
 ;; * character positions
 ;; * word or subword start positions
@@ -253,9 +253,8 @@ Typically, these modes don't use the text representation."
   :type 'boolean)
 
 (defcustom avy-del-last-char-by '(?\b ?\d)
-  "List of event types, i.e. key presses, that delete the last
-character read.  The default represents `C-h' and `DEL'.  See
-`event-convert-list'."
+  "List of event types, i.e. key presses, that delete the last character read.
+The default represents `C-h' and `DEL'.  See `event-convert-list'."
   :type 'list)
 
 (defcustom avy-escape-chars '(?\e ?\C-g)
@@ -692,6 +691,7 @@ Set `avy-style' according to COMMAND as well."
     (goto-char pt)))
 
 (defun avy-forward-item ()
+  "Move point forward either to the end of line or one sexpr."
   (if (eq avy-command 'avy-goto-line)
       (end-of-line)
     (forward-sexp))
@@ -769,8 +769,7 @@ Set `avy-style' according to COMMAND as well."
 (declare-function flyspell-correct-word-before-point "flyspell")
 
 (defcustom avy-flyspell-correct-function #'flyspell-correct-word-before-point
-  "Function called to correct word by `avy-action-ispell' when
-`flyspell-mode' is enabled."
+  "Function called to correct word by `avy-action-ispell' when `flyspell-mode' is enabled."
   :type 'function)
 
 (defun avy-action-ispell (pt)
@@ -1748,8 +1747,8 @@ overridden by ARG.
 
 When ARG is 0, select from all windows across all visible frames.
 
-When ARG is 1, jump to any line visible within the selected frame, with the option
-to cancel to `goto-line' by entering a number.
+When ARG is 1, jump to any line visible within the selected frame,
+with the option to cancel to `goto-line' by entering a number.
 
 When ARG is 4, negate the window scope determined by `avy-all-windows'.
 
@@ -1822,7 +1821,7 @@ When BOTTOM-UP is non-nil, display avy candidates from top to bottom"
 
 ;;;###autoload
 (defun avy-goto-end-of-line (&optional arg)
-  "Call `avy-goto-line' and move to the end of the line."
+  "Call `avy-goto-line' and move to the end of the line given by ARG."
   (interactive "p")
   (avy-goto-line arg)
   (end-of-line))
@@ -2053,7 +2052,7 @@ newline."
   :type 'float)
 
 (defcustom avy-enter-times-out t
-  "Whether enter exits avy-goto-char-timer early. If nil it matches newline"
+  "Whether enter exits avy-goto-char-timer early.  If nil it matches newline."
   :type 'boolean)
 
 (defvar avy-text ""
@@ -2192,7 +2191,7 @@ The window scope is determined by `avy-all-windows' (ARG negates it)."
 (defvar org-after-refile-insert-hook)
 
 (defun avy-org-refile-as-child ()
-  "Refile current heading as first child of heading selected with `avy.'"
+  "Refile current heading as first child of heading selected with `avy'."
   ;; Inspired by `org-teleport': http://kitchingroup.cheme.cmu.edu/blog/2016/03/18/Org-teleport-headlines/
   (interactive)
   (let* ((org-reverse-note-order t)
